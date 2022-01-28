@@ -8,6 +8,24 @@ terraform {
   }
 }
 
+# for cloud usage these vars have been defined in terraform cloud as a set
+# Configure the Akamai Provider to use betajam credentials
+provider "akamai" {
+  edgerc         = "~/.edgerc"
+  config_section = "betajam"
+}
+
+
+terraform {
+  backend "remote" { // for Terraform Cloud, this may be omitted or set to `app.terraform.io`
+    organization = "grinwis-com"
+
+    workspaces {
+      name = "terraform-cloud-akamai-cloudlets"
+    }
+  }
+}
+
 # just use group_name to lookup our contract_id and group_id
 # this will simplify our variables file as this contains contract and group id
 # use "akamai property groups list" to find all your groups 
