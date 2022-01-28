@@ -61,7 +61,7 @@ data "akamai_cloudlets_phased_release_match_rule" "to_deta" {
 resource "akamai_cloudlets_policy" "phased_release" {
   name          = var.policy_name
   cloudlet_code = "CD"
-  description   = "Terraform managed policy"
+  description   = var.description
   group_id      = data.akamai_contract.contract.group_id
 
   # you can use the rules via data source data.akamai_cloudlets_phased_release_match_rule.example.json
