@@ -77,7 +77,7 @@ resource "akamai_cloudlets_policy" "phased_release" {
 
 # when using file() terraform is to quick so not activating the latest version
 # let's do a lookup after modifying it and use that version
-data "akamai_cloudlets_policy" "example" {
+data "akamai_cloudlets_policy" "pr_policy" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
 }
 
@@ -85,7 +85,7 @@ data "akamai_cloudlets_policy" "example" {
 resource "akamai_cloudlets_policy_activation" "pr_staging_latest" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
   network   = "staging"
-  version   = split(":", data.akamai_cloudlets_policy.example.id)[1]
+  version   = split(":", data.akamai_cloudlets_policy.pr_policy.id)[1]
   # version               = resource.akamai_cloudlets_policy.phased_release.version
   associated_properties = var.hostnames
 }
