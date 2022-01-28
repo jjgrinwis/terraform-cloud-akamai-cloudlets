@@ -21,3 +21,9 @@ variable "to_deta_match_value" {
   description = "match value of all items that need to go to deta"
   type        = string
 }
+
+variable "description" {
+  description = "Specific name for this policy version"
+  type        = string
+  default     = "Terraform updates rule"
+}
