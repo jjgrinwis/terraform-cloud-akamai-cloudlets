@@ -9,15 +9,16 @@ terraform {
 }
 
 # for cloud usage these vars have been defined in terraform cloud as a set
-# Configure the Akamai Provider to use betajam credentials
+# we only need to use this when importing existing resources
 /* provider "akamai" {
   edgerc         = "~/.edgerc"
   config_section = "betajam"
 } */
 
-
+# we're storing the state in terraform cloud
+# when using existing resource first import it using terraform import akamai_cloudlets_policy.phased_release grinwis_pr
 terraform {
-  backend "remote" { // for Terraform Cloud, this may be omitted or set to `app.terraform.io`
+  backend "remote" {
     organization = "grinwis-com"
 
     workspaces {

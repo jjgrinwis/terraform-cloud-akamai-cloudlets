@@ -1,5 +1,7 @@
 # Akamai Terraform example for the [Phased Release Cloudlet](https://control.akamai.com/wh/CUSTOMER/AKAMAI/en-US/WEBHELP/property-manager/property-manager-help/GUID-EB6ECB59-525C-4253-ACAD-3FAC594B3B12.html). <br>
 
+This version is storing state in Terraform cloud and will be triggered when pushing changes to GitHub. Terraform cloud is monitoring changes in 
+
 Make sure you have added the Phased Release Cloudlet and [Conditional Origin Group](https://control.akamai.com/wh/CUSTOMER/AKAMAI/en-US/WEBHELP/property-manager/property-manager-help/GUID-57F29FA7-38F9-442B-9872-BE12BCC8A43A.html) behaviors with one or more Conditional Origin Definitions
 to you Akamai property configuration. This conditional origin can be used in your Phased Release Cloudlet rules if there is a match on a specific rule.<br>
 
