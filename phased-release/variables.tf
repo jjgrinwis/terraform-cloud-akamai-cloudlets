@@ -25,5 +25,5 @@ variable "to_deta_match_value" {
 variable "description" {
   description = "Specific name for this policy version"
   type        = string
-  default     = "Terraform updates rule"
+  default     = "Terraform updated rules"
 }
