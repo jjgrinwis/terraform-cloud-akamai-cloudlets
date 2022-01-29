@@ -82,8 +82,8 @@ data "akamai_cloudlets_policy" "pr_policy" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
 }
 
-# now activate the latest version by terraform on staging.
-resource "akamai_cloudlets_policy_activation" "pr_staging_latest" {
+# now activate a specific policy version, latest by default on staging.
+resource "akamai_cloudlets_policy_activation" "pr_staging" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
   network   = "staging"
   version   = var.policy_version == null ? split(":", data.akamai_cloudlets_policy.pr_policy.id)[1] : var.policy_version
