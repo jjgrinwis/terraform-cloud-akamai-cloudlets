@@ -86,7 +86,7 @@ data "akamai_cloudlets_policy" "pr_policy" {
 resource "akamai_cloudlets_policy_activation" "pr_staging_latest" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
   network   = "staging"
-  version   = var.version == null ? split(":", data.akamai_cloudlets_policy.pr_policy.id)[1] : var.version
+  version   = var.policy_version == null ? split(":", data.akamai_cloudlets_policy.pr_policy.id)[1] : var.policy_version
   # version               = resource.akamai_cloudlets_policy.phased_release.version
   associated_properties = var.hostnames
 }
