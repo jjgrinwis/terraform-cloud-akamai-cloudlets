@@ -28,7 +28,7 @@ variable "description" {
   default     = "Terraform updated rules"
 }
 
-variable "version" {
+variable "policy_version" {
   description = "By default latest version will be used, can be overwritten using this variable"
   type        = number
   default     = null
