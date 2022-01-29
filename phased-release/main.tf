@@ -16,7 +16,7 @@ terraform {
 } */
 
 # we're storing the state in terraform cloud
-# when using existing resource first import it using terraform import akamai_cloudlets_policy.phased_release grinwis_pr
+# when using existing resource first import it using 'terraform import akamai_cloudlets_policy.phased_release <cl_policy_name>'
 terraform {
   backend "remote" {
     organization = "grinwis-com"
@@ -29,13 +29,14 @@ terraform {
 
 # just use group_name to lookup our contract_id and group_id
 # this will simplify our variables file as this contains contract and group id
-# use "akamai property groups list" to find all your groups 
+# use 'akamai property groups list' to find all your groups 
 data "akamai_contract" "contract" {
   group_name = var.group_name
 }
 
 # an example on how to create the rules to be used in the policy via a data source
 # use the .json to return json formatted rules from this data source.
+# you can use multiple 'match_rules' in this data source
 data "akamai_cloudlets_phased_release_match_rule" "to_deta" {
   match_rules {
     name = "to_deta"
@@ -85,7 +86,7 @@ data "akamai_cloudlets_policy" "pr_policy" {
 resource "akamai_cloudlets_policy_activation" "pr_staging_latest" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
   network   = "staging"
-  version   = split(":", data.akamai_cloudlets_policy.pr_policy.id)[1]
+  version   = var.version == null ? split(":", data.akamai_cloudlets_policy.pr_policy.id)[1] : var.version
   # version               = resource.akamai_cloudlets_policy.phased_release.version
   associated_properties = var.hostnames
 }

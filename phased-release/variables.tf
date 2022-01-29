@@ -27,3 +27,9 @@ variable "description" {
   type        = string
   default     = "Terraform updated rules"
 }
+
+variable "version" {
+  description = "By default latest version will be used, can be overwritten using this variable"
+  type        = number
+  default     = null
+}
