@@ -4,7 +4,7 @@
         "name": "rule_2",
         "matches": [
             {
-                "matchValue": "NL DE UK",
+                "matchValue": "NL DE BE",
                 "matchOperator": "equals",
                 "negate": false,
                 "caseSensitive": false,
