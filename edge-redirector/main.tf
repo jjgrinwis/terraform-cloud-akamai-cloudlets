@@ -10,10 +10,10 @@ terraform {
 
 # for cloud usage these vars have been defined in terraform cloud as a set
 # Configure the Akamai Provider to use betajam credentials
-provider "akamai" {
+/* provider "akamai" {
   edgerc         = "~/.edgerc"
   config_section = "betajam"
-}
+} */
 
 # just use group_name to lookup our contract_id and group_id
 # this will simplify our variables file as this contains contract and group id
