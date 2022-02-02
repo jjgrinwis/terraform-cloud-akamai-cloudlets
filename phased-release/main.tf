@@ -9,15 +9,16 @@ terraform {
 }
 
 # for cloud usage these vars have been defined in terraform cloud as a set
-# Configure the Akamai Provider to use betajam credentials
+# we only need to use this when importing existing resources
 /* provider "akamai" {
   edgerc         = "~/.edgerc"
   config_section = "betajam"
 } */
 
-
+# we're storing the state in terraform cloud
+# when using existing resource first import it using 'terraform import akamai_cloudlets_policy.phased_release <cl_policy_name>'
 terraform {
-  backend "remote" { // for Terraform Cloud, this may be omitted or set to `app.terraform.io`
+  backend "remote" {
     organization = "grinwis-com"
 
     workspaces {
@@ -28,13 +29,14 @@ terraform {
 
 # just use group_name to lookup our contract_id and group_id
 # this will simplify our variables file as this contains contract and group id
-# use "akamai property groups list" to find all your groups 
+# use 'akamai property groups list' to find all your groups 
 data "akamai_contract" "contract" {
   group_name = var.group_name
 }
 
 # an example on how to create the rules to be used in the policy via a data source
 # use the .json to return json formatted rules from this data source.
+# you can use multiple 'match_rules' in this data source
 data "akamai_cloudlets_phased_release_match_rule" "to_deta" {
   match_rules {
     name = "to_deta"
@@ -60,7 +62,7 @@ data "akamai_cloudlets_phased_release_match_rule" "to_deta" {
 resource "akamai_cloudlets_policy" "phased_release" {
   name          = var.policy_name
   cloudlet_code = "CD"
-  description   = "Terraform managed policy"
+  description   = var.description
   group_id      = data.akamai_contract.contract.group_id
 
   # you can use the rules via data source data.akamai_cloudlets_phased_release_match_rule.example.json
@@ -76,15 +78,15 @@ resource "akamai_cloudlets_policy" "phased_release" {
 
 # when using file() terraform is to quick so not activating the latest version
 # let's do a lookup after modifying it and use that version
-data "akamai_cloudlets_policy" "example" {
+data "akamai_cloudlets_policy" "pr_policy" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
 }
 
-# now activate the latest version by terraform on staging.
-resource "akamai_cloudlets_policy_activation" "pr_staging_latest" {
+# now activate a specific policy version, latest by default on staging.
+resource "akamai_cloudlets_policy_activation" "pr_staging" {
   policy_id = resource.akamai_cloudlets_policy.phased_release.id
   network   = "staging"
-  version   = split(":", data.akamai_cloudlets_policy.example.id)[1]
+  version   = var.policy_version == null ? split(":", data.akamai_cloudlets_policy.pr_policy.id)[1] : var.policy_version
   # version               = resource.akamai_cloudlets_policy.phased_release.version
   associated_properties = var.hostnames
 }
