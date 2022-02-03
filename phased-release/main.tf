@@ -17,6 +17,9 @@ terraform {
 
 # we're storing the state in terraform cloud
 # when using existing resource first import it using 'terraform import akamai_cloudlets_policy.phased_release <cl_policy_name>'
+# https://support.hashicorp.com/hc/en-us/articles/360061289934-How-to-Import-Resources-into-a-Remote-State-Managed-by-Terraform-Cloud
+# you need to define the remote backend and make sure to select correct workspace ;-)
+# when running in Terraform Cloud you don't need this section anymore
 /*terraform {
   backend "remote" {
     organization = "grinwis-com"
