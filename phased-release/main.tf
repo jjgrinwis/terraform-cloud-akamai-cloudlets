@@ -17,7 +17,7 @@ terraform {
 
 # we're storing the state in terraform cloud
 # when using existing resource first import it using 'terraform import akamai_cloudlets_policy.phased_release <cl_policy_name>'
-terraform {
+/*terraform {
   backend "remote" {
     organization = "grinwis-com"
 
@@ -25,7 +25,7 @@ terraform {
       name = "phased-release"
     }
   }
-}
+}*/
 
 # just use group_name to lookup our contract_id and group_id
 # this will simplify our variables file as this contains contract and group id
